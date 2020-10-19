@@ -23,12 +23,12 @@
     }
   },
   "projects": {
-    "werfen": {
+    "test": {
       "tags": []
     },
-    "werfen-e2e": {
+    "test-e2e": {
       "tags": [],
-      "implicitDependencies": ["werfen"]
+      "implicitDependencies": ["test"]
     }
   }
 }
