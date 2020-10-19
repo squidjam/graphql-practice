@@ -4,24 +4,56 @@
  */
 
 import * as express from 'express';
+import fetch from 'node-fetch';
 
 import { ApolloServer, gql } from 'apollo-server-express';
 
 // Construct a schema, using GraphQL schema language
 const typeDefs = gql`
-  type Query {
-    hello: String
+
+  type Character {
+    id: ID
+    name: String
+    image: String
   }
+  
+  type Query {
+    
+    characters(
+      id: ID
+      name: String
+      image: String 
+    ): Character
+    
+  }
+
 `;
 
 // Provide resolver functions for your schema fields
 const resolvers = {
   Query: {
-    hello: () => 'Hello world!',
+    // node: (_, { id }, { services: { getObjectById } }) =>
+    //     getObjectById(fromGlobalId(id)),
+    characters: (_, args, { services: { findCharacters } }) =>
+        findCharacters(args),
+    // episodes: (_, args, { services: { findEpisodes } }) =>
+    //     findEpisodes(args),
+    // episode: (_, { id }, { services: { findEpisodeById } }) =>
+    //     findEpisodeById(id),
+    // character: (_, { id }, { services: { findCharacterById } }) =>
+    //     findCharacterById(id),
   },
 };
 
-const server = new ApolloServer({ typeDefs, resolvers });
+function findCharacters() {
+  return fetch('https://rickandmortyapi.com/api/character/')
+      .then(res => res.json())
+      .then(json => json);
+}
+
+const server = new ApolloServer({ typeDefs, resolvers, context: {
+  services: { findCharacters }
+  } });
 
 const app = express();
 server.applyMiddleware({ app });
