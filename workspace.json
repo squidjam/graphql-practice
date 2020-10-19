@@ -1,22 +1,25 @@
 {
   "version": 1,
   "projects": {
-    "test": {
-      "root": "apps/test",
-      "sourceRoot": "apps/test/src",
+    "rick-morty-front": {
+      "root": "apps/rick-morty-front",
+      "sourceRoot": "apps/rick-morty-front/src",
       "projectType": "application",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/web:build",
           "options": {
-            "outputPath": "dist/apps/test",
-            "index": "apps/test/src/index.html",
-            "main": "apps/test/src/main.tsx",
-            "polyfills": "apps/test/src/polyfills.ts",
-            "tsConfig": "apps/test/tsconfig.app.json",
-            "assets": ["apps/test/src/favicon.ico", "apps/test/src/assets"],
-            "styles": ["apps/test/src/styles.scss"],
+            "outputPath": "dist/apps/rick-morty-front",
+            "index": "apps/rick-morty-front/src/index.html",
+            "main": "apps/rick-morty-front/src/main.tsx",
+            "polyfills": "apps/rick-morty-front/src/polyfills.ts",
+            "tsConfig": "apps/rick-morty-front/tsconfig.app.json",
+            "assets": [
+              "apps/rick-morty-front/src/favicon.ico",
+              "apps/rick-morty-front/src/assets"
+            ],
+            "styles": ["apps/rick-morty-front/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "@nrwl/react/plugins/webpack"
           },
@@ -24,8 +27,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/test/src/environments/environment.ts",
-                  "with": "apps/test/src/environments/environment.prod.ts"
+                  "replace": "apps/rick-morty-front/src/environments/environment.ts",
+                  "with": "apps/rick-morty-front/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -48,51 +51,102 @@
         "serve": {
           "builder": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "test:build"
+            "buildTarget": "rick-morty-front:build",
+            "proxyConfig": "apps/rick-morty-front/proxy.conf.json"
           },
           "configurations": {
             "production": {
-              "buildTarget": "test:build:production"
+              "buildTarget": "rick-morty-front:build:production"
             }
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/test/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["apps/rick-morty-front/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/test/jest.config.js",
+            "jestConfig": "apps/rick-morty-front/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "test-e2e": {
-      "root": "apps/test-e2e",
-      "sourceRoot": "apps/test-e2e/src",
+    "rick-morty-front-e2e": {
+      "root": "apps/rick-morty-front-e2e",
+      "sourceRoot": "apps/rick-morty-front-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/test-e2e/cypress.json",
-            "tsConfig": "apps/test-e2e/tsconfig.e2e.json",
-            "devServerTarget": "test:serve"
+            "cypressConfig": "apps/rick-morty-front-e2e/cypress.json",
+            "tsConfig": "apps/rick-morty-front-e2e/tsconfig.e2e.json",
+            "devServerTarget": "rick-morty-front:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "test:serve:production"
+              "devServerTarget": "rick-morty-front:serve:production"
             }
           }
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/test-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["apps/rick-morty-front-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "graphql-api": {
+      "root": "apps/graphql-api",
+      "sourceRoot": "apps/graphql-api/src",
+      "projectType": "application",
+      "prefix": "graphql-api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/graphql-api",
+            "main": "apps/graphql-api/src/main.ts",
+            "tsConfig": "apps/graphql-api/tsconfig.app.json",
+            "assets": ["apps/graphql-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/graphql-api/src/environments/environment.ts",
+                  "with": "apps/graphql-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "graphql-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/graphql-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/graphql-api/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
@@ -117,5 +171,5 @@
       }
     }
   },
-  "defaultProject": "test"
+  "defaultProject": "rick-morty-front"
 }

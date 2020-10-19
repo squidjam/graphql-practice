@@ -23,12 +23,15 @@
     }
   },
   "projects": {
-    "test": {
+    "rick-morty-front": {
       "tags": []
     },
-    "test-e2e": {
+    "rick-morty-front-e2e": {
       "tags": [],
-      "implicitDependencies": ["test"]
+      "implicitDependencies": ["rick-morty-front"]
+    },
+    "graphql-api": {
+      "tags": []
     }
   }
 }
